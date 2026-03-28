@@ -1,9 +1,7 @@
 @extends('backend.layouts.app')
 
 @section('content')
-<div class="pc-container" style="padding-top: 80px; background: #f8f9fa;">
-    <div class="pc-content">
-        <div class="row align-items-center mb-4">
+<div class="row align-items-center mb-4">
             <div class="col-md-6">
                 <h2 class="fw-bold text-dark">📦 Stock & Inventory</h2>
                 <p class="text-muted">Current Menu Item Availability</p>
@@ -15,7 +13,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                <div class="card " style="border-radius: 15px;">
                     <div class="card-body p-0">
                         <div class="table-responsive">
                             <table class="table table-hover align-middle mb-0">
@@ -47,8 +45,4 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+            @endsection

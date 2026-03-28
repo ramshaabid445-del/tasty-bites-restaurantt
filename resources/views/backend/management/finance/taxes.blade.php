@@ -3,13 +3,11 @@
 @section('title', 'Tax Configuration')
 
 @section('content')
-<div class="pc-container">
-    <div class="pc-content">
-        <div class="row justify-content-center">
+<div class="row justify-content-center">
             <div class="col-xl-7 col-lg-8 col-md-10">
                 
                 @if(session('success'))
-                    <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
+                    <div class="alert alert-success alert-dismissible fade show  mb-4" role="alert">
                         <div class="d-flex align-items-center">
                             <i class="ti ti-circle-check me-2 f-20"></i> 
                             <div>{{ session('success') }}</div>
@@ -18,7 +16,7 @@
                     </div>
                 @endif
 
-                <div class="card border-0 shadow-sm" style="border-radius: 16px; overflow: hidden;">
+                <div class="card " style="border-radius: 16px; overflow: hidden;">
                     <div class="card-header bg-primary py-3">
                         <div class="d-flex align-items-center">
                             <div class="avtar avtar-s bg-white bg-opacity-25 text-white me-2">

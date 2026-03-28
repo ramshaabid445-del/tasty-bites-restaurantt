@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 @section('content')
-<div class="card border-0 shadow-sm">
+<div class="card ">
     <div class="card-header bg-white d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Daily Sales Report (EOD)</h5>
         <span class="badge bg-light-primary text-primary">{{ date('d M, Y') }}</span>
@@ -28,6 +28,4 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
-</div>
-@endsection
+    @endsection

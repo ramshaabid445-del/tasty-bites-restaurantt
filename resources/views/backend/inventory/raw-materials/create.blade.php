@@ -1,11 +1,9 @@
 @extends('backend.layouts.app')
 
 @section('content')
-<div class="pc-container" style="padding-top: 80px;">
-    <div class="pc-content">
-        <div class="row justify-content-center">
+<div class="row justify-content-center">
             <div class="col-md-6">
-                <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                <div class="card " style="border-radius: 15px;">
                     <div class="card-header bg-transparent border-0 pt-4 px-4">
                         <h4 class="fw-bold mb-0">Add New Ingredient</h4>
                     </div>
@@ -41,8 +39,4 @@
                         </form>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+            @endsection

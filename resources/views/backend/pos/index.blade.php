@@ -1,18 +1,16 @@
 @extends('backend.layouts.app')
 
 @section('content')
-<div class="pc-container" style="background-color: #f4f7fa; min-height: 100vh; padding-top: 75px;">
-    <div class="pc-content">
-        
+<div style="background-color: #f4f7fa; min-height: 100vh;">
         @if(session('success'))
-            <div class="alert alert-success border-0 shadow-sm mb-4">
+            <div class="alert alert-success  mb-4">
                 <i class="ti ti-circle-check me-2"></i> {{ session('success') }}
             </div>
         @endif
 
         <div class="row g-4">
             <div class="col-xl-8 col-lg-7">
-                <div class="card border-0 shadow-sm overflow-hidden" style="border-radius: 12px;">
+                <div class="card  overflow-hidden" style="border-radius: 12px;">
                     <div class="card-header bg-white border-0 pt-4 pb-0">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h4 class="mb-0 fw-bold text-dark">Menu Selection</h4>
@@ -64,12 +62,12 @@
             </div>
 
             <div class="col-xl-4 col-lg-5">
-                <div class="card border-0 shadow-sm h-100" style="border-radius: 15px;">
+                <div class="card  h-100" style="border-radius: 15px;">
                     <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
                         <h5 class="mb-0 fw-bold"><i class="ti ti-receipt me-2 text-primary"></i>Cart</h5>
                         <button class="btn btn-sm btn-light-danger rounded-pill" onclick="clearCart()">Clear</button>
                     </div>
-                    
+
                     <div class="card-body p-0 d-flex flex-column" style="height: calc(100vh - 250px);">
                         <div class="table-responsive flex-grow-1" style="overflow-y: auto;">
                             <table class="table align-middle mb-0">
@@ -96,7 +94,7 @@
                         <form action="{{ route('admin.pos.store') }}" method="POST" id="pos-form" class="p-4 pt-0 bg-light">
                             @csrf
                             <input type="hidden" name="cart_data" id="cart_data">
-                            
+
                             <div class="row g-2 mb-3">
                                 <div class="col-6">
                                     <select name="order_type" id="order_type" class="form-select border-2" onchange="toggleTableSelection()">
@@ -131,7 +129,6 @@
             </div>
         </div>
     </div>
-</div>
 
 <style>
     /* Fixed Height Card Styling */
@@ -273,7 +270,7 @@
         Array.from(items).forEach(item => {
             item.style.display = (catId === 'all' || item.getAttribute('data-category') == catId) ? '' : 'none';
         });
-        
+
         // Tab switching logic
         document.querySelectorAll('#category-filters .btn').forEach(b => b.classList.replace('btn-primary', 'btn-light'));
         btn.classList.replace('btn-light', 'btn-primary');

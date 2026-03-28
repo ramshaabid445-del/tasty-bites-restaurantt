@@ -1,7 +1,5 @@
 @extends('backend.layouts.app')
 @section('content')
-
-<div class="pc-content">
     <div class="page-header">
         <div class="page-block">
             <div class="row align-items-center">
@@ -102,8 +100,4 @@
                     <button type="submit" class="btn btn-danger">Save Report</button>
                 </div>
             </form>
-        </div>
-    </div>
-</div>
-
-@endsection
+        @endsection

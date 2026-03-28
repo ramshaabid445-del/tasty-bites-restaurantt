@@ -7,7 +7,7 @@
         </div>
         <div class="navbar-content">
             <ul class="pc-navbar">
-                
+
                 <li class="pc-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('admin.dashboard') }}" class="pc-link">
                         <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
@@ -27,7 +27,7 @@
                     <i class="ti ti-building-store"></i>
                 </li>
 
-                <li class="pc-item pc-hasmenu {{ request()->is('admin/orders*') ? 'active pc-trigger' : '' }}">
+                <li class="pc-item pc-hasmenu {{ request()->is('admin/orders*') || request()->is('admin/kds*') ? 'active pc-trigger' : '' }}">
                     <a href="#!" class="pc-link">
                         <span class="pc-micon"><i class="ti ti-shopping-cart"></i></span>
                         <span class="pc-mtext">Orders</span>
@@ -41,7 +41,7 @@
                     </ul>
                 </li>
 
-                <li class="pc-item pc-hasmenu {{ request()->is('admin/menu*') || request()->is('admin/categories*') ? 'active pc-trigger' : '' }}">
+                <li class="pc-item pc-hasmenu {{ request()->is('admin/menu*') || request()->is('admin/categories*') || request()->is('admin/menu-items*') || request()->is('admin/addons*') || request()->is('admin/deals*') ? 'active pc-trigger' : '' }}">
                     <a href="#!" class="pc-link">
                         <span class="pc-micon"><i class="ti ti-tools-kitchen-2"></i></span>
                         <span class="pc-mtext">Menu Setup</span>
@@ -49,7 +49,7 @@
                     </a>
                     <ul class="pc-submenu">
                         <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.categories.index') ? route('admin.categories.index') : '#' }}"><i class="ti ti-category me-2"></i>Categories</a></li>
-                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.menu.index') ? route('admin.menu.index') : '#' }}"><i class="ti ti-soup me-2"></i>All Food Items</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.menu-items.index') ? route('admin.menu-items.index') : '#' }}"><i class="ti ti-soup me-2"></i>All Food Items</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.addons.index') ? route('admin.addons.index') : '#' }}"><i class="ti ti-puzzle me-2"></i>Add-ons & Extras</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.deals.index') ? route('admin.deals.index') : '#' }}"><i class="ti ti-discount-2 me-2"></i>Deals & Combos</a></li>
                     </ul>
@@ -94,7 +94,7 @@
                     </a>
                     <ul class="pc-submenu">
                         <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.hr.employees') ? route('admin.hr.employees') : '#' }}"><i class="ti ti-id me-2"></i>Employee List</a></li>
-                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.hr.permissions') ? route('admin.hr.permissions') : '#' }}"><i class="ti ti-shield-lock me-2"></i>Roles & Permissions</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.hr.roles') ? route('admin.hr.roles') : '#' }}"><i class="ti ti-shield-lock me-2"></i>Roles & Permissions</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.hr.attendance') ? route('admin.hr.attendance') : '#' }}"><i class="ti ti-clock me-2"></i>Attendance & Shifts</a></li>
                     </ul>
                 </li>
@@ -106,7 +106,7 @@
                         <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                     </a>
                     <ul class="pc-submenu">
-                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.crm.index') ? route('admin.crm.index') : '#' }}"><i class="ti ti-users-group me-2"></i>Customer Database</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.crm.customers') ? route('admin.crm.customers') : '#' }}"><i class="ti ti-users-group me-2"></i>Customer Database</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.crm.loyalty') ? route('admin.crm.loyalty') : '#' }}"><i class="ti ti-star me-2"></i>Loyalty Points</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.crm.feedback') ? route('admin.crm.feedback') : '#' }}"><i class="ti ti-message-star me-2"></i>Feedback & Reviews</a></li>
                     </ul>
@@ -137,9 +137,9 @@
                         <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                     </a>
                     <ul class="pc-submenu">
-                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.reports.sales') ? route('admin.reports.sales') : '#' }}"><i class="ti ti-calendar-stats me-2"></i>Daily Sales (EOD)</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.reports.daily-sales') ? route('admin.reports.daily-sales') : '#' }}"><i class="ti ti-calendar-stats me-2"></i>Daily Sales (EOD)</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.reports.best-sellers') ? route('admin.reports.best-sellers') : '#' }}"><i class="ti ti-award me-2"></i>Best Sellers</a></li>
-                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.reports.inventory') ? route('admin.reports.inventory') : '#' }}"><i class="ti ti-chart-bar me-2"></i>Stock & Inventory</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.reports.stock') ? route('admin.reports.stock') : '#' }}"><i class="ti ti-chart-bar me-2"></i>Stock & Inventory</a></li>
                     </ul>
                 </li>
 
@@ -151,13 +151,13 @@
                     </a>
                     <ul class="pc-submenu">
                         <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.settings.general') ? route('admin.settings.general') : '#' }}"><i class="ti ti-info-circle me-2"></i>General Info</a></li>
-                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.settings.payments') ? route('admin.settings.payments') : '#' }}"><i class="ti ti-credit-card me-2"></i>Payment Gateways</a></li>
-                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.settings.printers') ? route('admin.settings.printers') : '#' }}"><i class="ti ti-printer me-2"></i>Printer Configuration</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.settings.payment') ? route('admin.settings.payment') : '#' }}"><i class="ti ti-credit-card me-2"></i>Payment Gateways</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.settings.printer') ? route('admin.settings.printer') : '#' }}"><i class="ti ti-printer me-2"></i>Printer Configuration</a></li>
                     </ul>
                 </li>
             </ul>
 
-            <div class="card text-center bg-light-primary border-0 shadow-none m-3">
+            <div class="card text-center bg-light-primary border-0  m-3">
                 <div class="card-body p-3">
                     <p class="mb-2 text-muted" style="font-size: 12px;">Restaurant OS v2.0</p>
                     <span class="badge bg-primary">Industrial Pro</span>

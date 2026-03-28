@@ -9,7 +9,7 @@
 
 <div class="row">
     <div class="col-sm-12">
-        <div class="card border-0 shadow-sm">
+        <div class="card ">
             <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">System Roles</h5>
                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addRoleModal">
@@ -85,7 +85,7 @@
                         @isset($all_permissions)
                             @foreach($all_permissions as $perm)
                             <div class="col-md-4">
-                                <div class="form-check card p-2 border-light shadow-none">
+                                <div class="form-check card p-2 border-light ">
                                     <input class="form-check-input ms-0 me-2" type="checkbox" name="permissions[]" value="{{ $perm->id }}" id="perm_{{ $perm->id }}">
                                     <label class="form-check-label" for="perm_{{ $perm->id }}">{{ $perm->name }}</label>
                                 </div>
@@ -105,6 +105,4 @@
                 </div>
             </form>
         </div>
-    </div>
-</div>
-@endsection
+    @endsection

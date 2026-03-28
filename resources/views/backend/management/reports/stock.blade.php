@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
     <div class="col-sm-12">
-        <div class="card border-0 shadow-sm">
+        <div class="card ">
             <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
                 <h5 class="mb-0"><i class="ti ti-box text-primary me-2"></i>Menu Items Availability</h5>
                 <button onclick="window.print()" class="btn btn-sm btn-light-secondary"><i class="ti ti-printer"></i> Print Report</button>
@@ -48,8 +48,4 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+            @endsection

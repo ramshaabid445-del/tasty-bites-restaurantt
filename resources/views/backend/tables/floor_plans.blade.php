@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('content') <div class="pc-content">
+@section('content')
     <div class="page-header">
         <div class="page-block">
             <div class="row align-items-center">
@@ -21,7 +21,7 @@
     <div class="row mt-4">
         @forelse($tables as $table)
             <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="card shadow-sm border-0 h-100 text-center">
+                <div class="card  h-100 text-center">
                     <div class="card-body">
                         <div class="mb-3">
                             @if($table->status == 'available')
@@ -32,10 +32,10 @@
                                 <i class="ti ti-armchair fs-1 text-warning"></i>
                             @endif
                         </div>
-                        
+
                         <h5 class="card-title mb-1">{{ $table->name }}</h5>
                         <p class="text-muted small mb-2">Capacity: {{ $table->capacity }} Persons</p>
-                        
+
                         <div class="mt-auto">
                             @if($table->status == 'available')
                                 <span class="badge bg-success w-100">Free</span>
@@ -56,5 +56,4 @@
             </div>
         @endforelse
     </div>
-</div>
 @endsection

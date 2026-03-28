@@ -1,8 +1,6 @@
-@extends('backend.layouts.master')
+@extends('backend.layouts.app')
 @section('content')
-<div class="pc-container">
-    <div class="pc-content">
-        <div class="row">
+<div class="row">
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
@@ -46,8 +44,4 @@
                         </form>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+            @endsection

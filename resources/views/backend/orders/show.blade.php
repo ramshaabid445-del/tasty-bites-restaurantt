@@ -1,11 +1,9 @@
 @extends('backend.layouts.app')
 
 @section('content')
-<div class="pc-container">
-    <div class="pc-content">
-        <div class="row justify-content-center">
+<div class="row justify-content-center">
             <div class="col-lg-5 col-md-8">
-                <div class="card shadow-sm border-0" id="invoiceCard">
+                <div class="card " id="invoiceCard">
                     <div class="card-body p-4 text-center">
                         <h2 class="fw-bold mb-1">FOOD POS</h2>
                         <p class="mb-0 text-muted small">Phase 5, DHA, Lahore</p>

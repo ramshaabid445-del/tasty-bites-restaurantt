@@ -1,8 +1,6 @@
 @extends('backend.layouts.app')
 
 @section('content')
-<div class="pc-container" style="background-color: #f4f7fa;">
-    <div class="pc-content" style="padding-top: 20px;">
         <div class="page-header mb-4">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
@@ -15,7 +13,7 @@
             </div>
         </div>
 
-        <div class="card border-0 shadow-sm" style="border-radius: 12px; overflow: hidden;">
+        <div class="card " style="border-radius: 12px; overflow: hidden;">
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
@@ -61,8 +59,8 @@
                                 <td>
                                     <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" id="status-form-{{ $order->id }}">
                                         @csrf
-                                        <select name="status" class="form-select form-select-sm status-select 
-                                            {{ $order->status == 'pending' ? 'text-warning' : ($order->status == 'completed' ? 'text-success' : ($order->status == 'processing' ? 'text-primary' : 'text-danger')) }}" 
+                                        <select name="status" class="form-select form-select-sm status-select
+                                            {{ $order->status == 'pending' ? 'text-warning' : ($order->status == 'completed' ? 'text-success' : ($order->status == 'processing' ? 'text-primary' : 'text-danger')) }}"
                                             onchange="this.form.submit()">
                                             <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>⏳ Pending</option>
                                             <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>👨‍🍳 Cooking</option>
@@ -96,7 +94,7 @@
                     </table>
                 </div>
             </div>
-            
+
             @if($orders->hasPages())
             <div class="card-footer bg-white border-0 py-3">
                 <div class="d-flex justify-content-between align-items-center">
@@ -106,14 +104,11 @@
             </div>
             @endif
         </div>
-    </div>
-</div>
-
 <style>
     /* Table Styling */
     .order-row { transition: background 0.2s ease; }
     .order-row:hover { background-color: #f9fbff !important; }
-    
+
     /* Select Dropdown Styling */
     .status-select {
         border: 1px solid #e3e8ef !important;
@@ -125,7 +120,7 @@
         width: 140px;
         box-shadow: none !important;
     }
-    
+
     /* Custom Action Buttons */
     .action-btn {
         width: 36px;
@@ -139,10 +134,10 @@
         background: #fff;
         border: 1px solid #e3e8ef;
     }
-    
+
     .btn-print { color: #7267ef; }
     .btn-print:hover { background: #7267ef; color: #fff; border-color: #7267ef; }
-    
+
     .btn-view { color: #212529; }
     .btn-view:hover { background: #f1f5f9; color: #000; }
 
@@ -150,7 +145,7 @@
     .bg-light-info { background-color: #e0f2fe !important; }
     .bg-light-warning { background-color: #fef3c7 !important; }
     .bg-light-success { background-color: #d1fae5 !important; }
-    
+
     /* Pagination Fix */
     .pagination { margin-bottom: 0; }
     .page-link { border-radius: 6px; margin: 0 2px; border: none; color: #6b7280; }

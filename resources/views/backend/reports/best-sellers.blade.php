@@ -1,9 +1,7 @@
 @extends('backend.layouts.app')
 
 @section('content')
-<div class="pc-container" style="padding-top: 80px; background: #f8f9fa;">
-    <div class="pc-content">
-        <div class="row align-items-center mb-4">
+<div class="row align-items-center mb-4">
             <div class="col-md-6">
                 <h2 class="fw-bold text-dark">🔥 Best Sellers Report</h2>
                 <p class="text-muted">Analysis of top performing menu items</p>
@@ -15,7 +13,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                <div class="card " style="border-radius: 15px;">
                     <div class="card-header bg-transparent border-0 pt-4 px-4">
                         <h5 class="fw-bold mb-0">Item Performance Ranking</h5>
                     </div>
@@ -48,8 +46,4 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+            @endsection

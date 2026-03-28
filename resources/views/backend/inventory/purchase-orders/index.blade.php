@@ -1,7 +1,5 @@
 @extends('backend.layouts.app')
 @section('content')
-
-<div class="pc-content">
     <div class="page-header">
         <div class="page-block">
             <div class="row align-items-center">
@@ -64,6 +62,4 @@
             </div>
         </div>
     </div>
-</div>
-
 @endsection

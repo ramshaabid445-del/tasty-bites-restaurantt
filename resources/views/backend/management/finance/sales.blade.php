@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 @section('content')
-<div class="card border-0 shadow-sm">
+<div class="card ">
     <div class="card-header bg-primary text-white">
         <h5 class="mb-0 text-white">Total Sales: {{ number_format($total_sales, 2) }}</h5>
     </div>
@@ -25,6 +25,4 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
-</div>
-@endsection
+    @endsection

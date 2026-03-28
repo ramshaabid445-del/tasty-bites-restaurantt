@@ -11,7 +11,7 @@
     <a href="{{ route('admin.inventory.suppliers.create') }}" class="btn btn-primary shadow-sm">+ Add New Supplier</a>
 </div>
 
-<div class="card border-0 shadow-sm" style="border-radius: 15px;">
+<div class="card " style="border-radius: 15px;">
     <div class="card-body p-0">
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
@@ -53,6 +53,4 @@
                 </tbody>
             </table>
         </div>
-    </div>
-</div>
-@endsection
+    @endsection

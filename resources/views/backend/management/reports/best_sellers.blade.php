@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
     <div class="col-sm-12">
-        <div class="card border-0 shadow-sm">
+        <div class="card ">
             <div class="card-header bg-white py-3">
                 <h5 class="mb-0"><i class="ti ti-medal text-warning me-2"></i>Top 10 Best Selling Items</h5>
             </div>
@@ -38,8 +38,4 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+            @endsection

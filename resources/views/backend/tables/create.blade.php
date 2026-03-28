@@ -1,9 +1,7 @@
 @extends('backend.layouts.app')
 
 @section('content')
-<div class="pc-container">
-    <div class="pc-content">
-        <div class="page-header">
+<div class="page-header">
             <div class="page-block">
                 <div class="row align-items-center mb-3">
                     <div class="col-md-12">
@@ -20,7 +18,7 @@
 
         <div class="row">
             <div class="col-xl-6 col-lg-8 mx-auto">
-                <div class="card shadow-sm border-0">
+                <div class="card ">
                     <div class="card-header border-bottom bg-light">
                         <h5 class="mb-0">Table Details</h5>
                     </div>
@@ -69,9 +67,4 @@
 
                     </div>
                 </div>
-            </div>
-        </div>
-        
-    </div>
-</div>
-@endsection
+            @endsection

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
-use App\Models\Role;
-use App\Models\Permission; // Naya Model include kiya
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -34,13 +34,10 @@ class HRController extends Controller
         return redirect()->back()->with('success', 'Employee added successfully!');
     }
 
-    // 3. Roles List (Database se fetch karega)
+    // 3. Roles List (Spatie Models)
     public function roles()
     {
-        // Database se roles aur unki permissions uthao
         $roles = Role::with('permissions')->latest()->get(); 
-        
-        // Modal mein dikhane ke liye saari permissions fetch karo
         $all_permissions = Permission::all();
 
         return view('backend.management.hr.roles', compact('roles', 'all_permissions'));
@@ -51,21 +48,26 @@ class HRController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:roles,name',
-            'permissions' => 'nullable|array' // Checkboxes se array aayega
+            'permissions' => 'nullable|array'
         ]);
 
-        // 1. Role create karo
         $role = Role::create([
             'name' => $request->name,
+            'guard_name' => 'web'
         ]);
 
-        // 2. Agar permissions select ki hain, toh pivot table (permission_role) mein dalo
         if ($request->has('permissions')) {
-            // sync() function pivot table mein entry khud hi manage kar leta hai
-            $role->permissions()->sync($request->permissions);
+            $role->syncPermissions($request->permissions);
         }
 
         return redirect()->back()->with('success', 'New Role: ' . $request->name . ' created successfully!');
+    }
+
+    public function destroyRole($id)
+    {
+        $role = Role::findOrFail($id);
+        $role->delete();
+        return redirect()->back()->with('success', 'Role deleted successfully!');
     }
 
     // 5. Attendance View

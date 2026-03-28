@@ -3,9 +3,7 @@
 @section('title', 'Loyalty Program')
 
 @section('content')
-<div class="pc-container">
-    <div class="pc-content">
-        <div class="page-header mb-4">
+<div class="page-header mb-4">
             <div class="page-block">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -19,7 +17,7 @@
 
         <div class="row">
             <div class="col-md-4">
-                <div class="card border-0 shadow-sm overflow-hidden" style="border-radius: 12px; background: linear-gradient(45deg, #7267ef, #a389f4);">
+                <div class="card  overflow-hidden" style="border-radius: 12px; background: linear-gradient(45deg, #7267ef, #a389f4);">
                     <div class="card-body p-4 text-white">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <div class="avtar avtar-lg bg-white bg-opacity-25 rounded-circle">
@@ -32,7 +30,7 @@
                     </div>
                 </div>
 
-                <div class="card border-0 shadow-sm mt-3" style="border-radius: 12px;">
+                <div class="card  mt-3" style="border-radius: 12px;">
                     <div class="card-body">
                         <h6 class="fw-bold mb-3"><i class="ti ti-settings me-2 text-primary"></i> Points Configuration</h6>
                         <div class="d-flex justify-content-between align-items-center mb-2">
@@ -48,7 +46,7 @@
             </div>
 
             <div class="col-md-8">
-                <div class="card border-0 shadow-sm" style="border-radius: 12px;">
+                <div class="card " style="border-radius: 12px;">
                     <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center border-0">
                         <h5 class="mb-0 fw-bold"><i class="ti ti-users me-2 text-primary"></i> Top Loyal Customers</h5>
                         <button class="btn btn-sm btn-primary rounded-pill px-3">View All</button>

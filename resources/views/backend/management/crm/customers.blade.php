@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
     <div class="col-sm-12">
-        <div class="card border-0 shadow-sm">
+        <div class="card ">
             <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Customer Database</h5>
                 <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
@@ -39,8 +39,4 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+            @endsection
