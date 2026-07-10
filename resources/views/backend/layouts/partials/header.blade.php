@@ -11,13 +11,23 @@
             <ul class="list-unstyled">
                 <li class="dropdown pc-h-item header-user-profile">
                     <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button">
-                        <img src="{{ asset('backend/assets/images/user/avatar-2.jpg') }}" alt="user-image" class="user-avtar">
+                        {{-- Dynamic Avatar Logic added below --}}
+                        <img src="{{ Auth::user()->avatar ? asset('uploads/avatars/'.Auth::user()->avatar) : asset('backend/assets/images/user/avatar-1.jpg') }}" 
+                             alt="user-image" 
+                             class="user-avtar" 
+                             style="width: 35px; height: 35px; object-fit: cover;">
                         <span>{{ Auth::user()->name ?? 'Admin' }}</span>
                     </a>
                     <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
-                        <div class="dropdown-header">
-                            <h6>{{ Auth::user()->name ?? 'Admin' }}</h6>
-                            <small>{{ Auth::user()->email ?? 'admin@restaurant.com' }}</small>
+                        <div class="dropdown-header d-flex align-items-center">
+                            {{-- Dropdown inner avatar --}}
+                            <img src="{{ Auth::user()->avatar ? asset('uploads/avatars/'.Auth::user()->avatar) : asset('backend/assets/images/user/avatar-1.jpg') }}" 
+                                 class="rounded-circle me-2" 
+                                 style="width: 40px; height: 40px; object-fit: cover;">
+                            <div>
+                                <h6 class="mb-0">{{ Auth::user()->name ?? 'Admin' }}</h6>
+                                <small class="text-muted">{{ Auth::user()->email ?? 'admin@restaurant.com' }}</small>
+                            </div>
                         </div>
                         <div class="dropdown-divider"></div>
                         <a href="{{ route('profile.edit') }}" class="dropdown-item"><i class="ti ti-user"></i> Profile</a>

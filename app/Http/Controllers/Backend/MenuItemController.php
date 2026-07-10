@@ -112,4 +112,14 @@ class MenuItemController extends Controller
 
         return redirect()->route('admin.menu-items.index')->with('success', 'Menu Item deleted successfully!');
     }
+    public function toggleStatus($id)
+{
+    $item = \App\Models\MenuItem::findOrFail($id);
+    
+    // Status switch karein: 1 hai toh 0, 0 hai toh 1
+    $item->status = $item->status == 1 ? 0 : 1;
+    $item->save();
+
+    return back()->with('success', 'Stock status updated!');
+}
 }

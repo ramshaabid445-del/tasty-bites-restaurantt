@@ -4,18 +4,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MenuItem extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'category_id',
         'name',
         'slug',
         'description',
+        'discount_price',
+        'tax_percent',
         'price',
         'image',
+        'preparation_time',
+        'type',
+        'is_available',
+        'is_featured',
+        'stock_qty',
+        'sort_order',
         'status', // 1 = Active, 0 = Inactive
     ];
 
@@ -41,9 +50,36 @@ class MenuItem extends Model
         return $this->hasMany(OrderItem::class, 'menu_item_id');
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where(function ($query) {
+            $query->where('status', 1)->orWhere('is_available', true);
+        });
+    }
+
+    public function scopeFeatured($query)
+    {
+        return $query->where('is_featured', true);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function getCurrentPriceAttribute()
+    {
+        return $this->discount_price ?: $this->price;
+    }
+
+    public function getShortDescriptionAttribute()
+    {
+        return str($this->description)->stripTags()->limit(120);
+    }
+
     // 4. Availability Helper (Blade mein use karne ke liye)
     public function getIsAvailableAttribute()
     {
-        return $this->status == 1;
+        return (int) $this->status === 1;
     }
 }

@@ -13,4 +13,19 @@ class DiningTable extends Model
     protected $table = 'dining_tables'; 
 
     protected $guarded = [];
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function scopeAvailable($query)
+    {
+        return $query->where('status', 'available');
+    }
 }

@@ -8,7 +8,7 @@ use App\Models\MenuItem;
 use App\Models\DiningTable;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\TaxSetting; // <--- Yeh lazmi hai dynamic tax ke liye
+use App\Models\TaxSetting; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -19,50 +19,59 @@ class POSController extends Controller
     // 1. POS Main Screen
     public function index()
     {
-        $categories = Category::all();
-        $menuItems = MenuItem::with('category')->latest()->get(); 
-        $tables = DiningTable::all(); 
+        // Optimized asset loading for POS view layer cards
+        $categories = Category::select('id', 'name')->get();
+        
+        $menuItems = MenuItem::with(['category' => function($q) {
+                $q->select('id', 'name');
+            }])
+            ->select('id', 'category_id', 'name', 'price', 'image', 'is_available')
+            ->where('is_available', true) 
+            ->latest()
+            ->get(); 
+            
+        $tables = DiningTable::select('id', 'name', 'status')->get(); 
 
         return view('backend.pos.index', compact('categories', 'menuItems', 'tables'));
     }
 
-    // 2. Save Order from POS (Updated with Dynamic Tax)
+    // 2. Save Order 
     public function storeOrder(Request $request)
     {
+        // Validation parameters matching frontend submission keys
         $request->validate([
             'cart_data' => 'required',
             'order_type' => 'required|in:dine_in,takeaway,delivery',
             'payment_method' => 'required|in:cash,card,online',
+            'table_id' => 'required_if:order_type,dine_in|nullable|integer',
         ]);
 
+        // 🔥 FIX 1: Safe JS payload processing array formatting extraction
         $cart = json_decode($request->cart_data, true);
 
-        if(empty($cart)) {
-            return back()->with('error', 'Your cart is empty!');
+        if(!is_array($cart) || count($cart) === 0) {
+            return back()->with('error', 'Your cart is completely empty!');
         }
 
-        // --- DYNAMIC TAX LOGIC START ---
-        $taxConfig = TaxSetting::first();
-        // Agar tax active hai toh rate uthao, warna 0 kardo
-        $taxPercentage = ($taxConfig && $taxConfig->is_active) ? $taxConfig->tax_rate : 0;
-        // --- DYNAMIC TAX LOGIC END ---
+        $taxConfig = TaxSetting::where('is_active', true)->first();
+        $taxPercentage = $taxConfig ? $taxConfig->tax_rate : 0;
 
         DB::beginTransaction();
         
         try {
             $subTotal = 0;
             foreach($cart as $item) {
-                $subTotal += $item['price'] * $item['quantity'];
+                $subTotal += ($item['price'] * $item['quantity']);
             }
             
-            // Calculation based on your Database Settings
             $taxAmount = ($subTotal * $taxPercentage) / 100; 
             $grandTotal = $subTotal + $taxAmount;
 
+            // Generation of completely clean relational billing record
             $order = Order::create([
                 'order_number'    => 'ORD-' . strtoupper(Str::random(8)),
                 'user_id'         => Auth::id() ?? 1,
-                'customer_name'   => $request->customer_name,
+                'customer_name'   => $request->customer_name ?? 'Walk-in Guest',
                 'customer_phone'  => $request->customer_phone,
                 'dining_table_id' => $request->order_type == 'dine_in' ? $request->table_id : null,
                 'order_type'      => $request->order_type,
@@ -74,56 +83,82 @@ class POSController extends Controller
                 'status'          => 'pending', 
             ]);
 
+            // Generating batch row items mapping context fields
             foreach($cart as $item) {
                 OrderItem::create([
                     'order_id'     => $order->id,
                     'menu_item_id' => $item['id'],
-                    'item_name'    => $item['name'] ?? 'Item', 
+                    'item_name'    => $item['name'] ?? 'Menu Item', 
                     'quantity'     => $item['quantity'],
                     'unit_price'   => $item['price'],
                     'sub_total'    => $item['price'] * $item['quantity'],
+                    'price'        => $item['price'], 
                 ]);
             }
 
+            // Lock structural dining tables metrics to prevent dual-orders
             if($request->order_type == 'dine_in' && $request->table_id) {
                 DiningTable::where('id', $request->table_id)->update(['status' => 'occupied']);
             }
 
             DB::commit();
+
+            // Redirect context returning stream seamlessly directly inside printing loops
             return redirect()->route('admin.pos.invoice', $order->id)->with('success', 'Order Placed Successfully!');
 
         } catch (\Exception $e) {
             DB::rollback();
-            return back()->with('error', 'Error: ' . $e->getMessage());
+            return back()->with('error', 'Database Transaction Failed: ' . $e->getMessage());
         }
     }
 
-    // 3. Show Invoice
+    // 3. Show Invoice 
     public function showInvoice($id)
     {
-        $order = Order::with(['items', 'table'])->findOrFail($id);
+        $order = Order::with(['items.menuItem', 'table'])->findOrFail($id);
         return view('backend.pos.invoice', compact('order'));
     }
 
     // 4. Order History
     public function orderHistory()
     {
-        $orders = Order::with(['table', 'user'])->latest()->paginate(15);
-        return view('backend.pos.orders', compact('orders'));
+        $orders = Order::select('id', 'order_number', 'customer_name', 'customer_phone', 'total_amount', 'status', 'payment_method', 'dining_table_id', 'user_id', 'created_at', 'order_type')
+            ->with([
+                'table' => function($q) { $q->select('id', 'name'); },
+                'user'  => function($q) { $q->select('id', 'name'); }
+            ])
+            ->latest()
+            ->paginate(15);
+            
+        // 🔥 NOTICE: Uses backend/orders/index or backend/pos/orders based on structural filename bindings
+        return view('backend.orders.index', compact('orders'));
     }
 
-    // 5. Update Status (Pending to Served/Completed)
+    // 5. Update Status
     public function updateStatus(Request $request, $id)
     {
-        $request->validate(['status' => 'required']);
+        $request->validate([
+            'status' => 'required|in:pending,processing,completed,cancelled'
+        ]);
         
         $order = Order::findOrFail($id);
-        $order->update(['status' => $request->status]);
-
-        if($request->status == 'completed' && $order->dining_table_id) {
-            DiningTable::where('id', $order->dining_table_id)->update(['status' => 'available']);
+        
+        $updateData = ['status' => $request->status];
+        
+        // Dynamic assignment validations checks mapping incoming requests keys
+        if($request->has('assigned_staff_id') && $request->assigned_staff_id != null) {
+            $updateData['user_id'] = $request->assigned_staff_id; 
         }
 
-        return back()->with('success', 'Order status updated!');
+        $order->update($updateData);
+
+        // 🔥 FIX 2: Automatic conditional release loops for associated table allocations
+        if($order->dining_table_id) {
+            if(in_array($request->status, ['completed', 'cancelled'])) {
+                DiningTable::where('id', $order->dining_table_id)->update(['status' => 'available']);
+            }
+        }
+
+        return back()->with('success', 'Order state updated successfully!');
     }
 }

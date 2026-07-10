@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Login | Mantis Admin</title>
+  <title>Login | Tasty Bites Admin</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
@@ -9,14 +9,14 @@
   <link rel="stylesheet" href="{{ asset('backend/assets/css/style.css') }}" id="main-style-link" >
   <link rel="stylesheet" href="{{ asset('backend/assets/css/style-preset.css') }}" >
 </head>
-<body data-pc-preset="preset-1" data-pc-direction="ltr" data-pc-theme="light">
+<body data-pc-preset="preset-5" data-pc-direction="ltr" data-pc-theme="light">
   <div class="auth-main">
     <div class="auth-wrapper v3">
       <div class="auth-form">
         <div class="card my-5">
           <div class="card-body">
             <div class="text-center mb-4">
-              <a href="#"><img src="{{ asset('backend/assets/images/logo-dark.svg') }}" alt="logo" class="img-fluid mb-3"></a>
+              <a href="#"><img src="{{ asset('backend/assets/images/tasty-bites-logo.svg') }}" alt="Tasty Bites" class="img-fluid mb-3"></a>
               <h4 class="f-w-500 mb-1">Login to your account</h4>
               <p class="mb-3">Enter your credentials to continue</p>
             </div>

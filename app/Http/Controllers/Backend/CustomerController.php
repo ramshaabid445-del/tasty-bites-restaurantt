@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
-use App\Models\Feedback; // Yeh zaroori hai
+use App\Models\Feedback;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -13,27 +13,44 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::latest()->get();
-        // Check karein ke aapki file ka naam 'index' hai ya 'customers'
         return view('backend.management.crm.customers', compact('customers'));
     }
 
-    // 2. Loyalty Points Page
+    // 2. Loyalty Page Method (Jo missing tha)
     public function loyalty()
     {
-        // Top 10 customers points ke hisab se
-        $top_customers = Customer::orderBy('loyalty_points', 'desc')->take(10)->get();
-        return view('backend.management.crm.loyalty', compact('top_customers'));
+        // Sab customers aur total points calculate karke view ko bhej raha hai
+        $customers = Customer::orderBy('loyalty_points', 'desc')->get();
+        $totalPoints = Customer::sum('loyalty_points');
+        
+        return view('backend.management.crm.loyalty', compact('customers', 'totalPoints'));
     }
 
-    // 3. Feedback & Reviews Page
+    // 3. Add Manual Points Logic
+    public function addLoyaltyPoints(Request $request)
+    {
+        $request->validate([
+            'customer_id' => 'required|exists:customers,id',
+            'points' => 'required|numeric|min:1',
+        ]);
+
+        $customer = Customer::findOrFail($request->customer_id);
+        
+        // Column name 'loyalty_points' use kiya hai jo aapke store method mein hai
+        $customer->loyalty_points += $request->points;
+        $customer->save();
+
+        return redirect()->back()->with('success', 'Points added successfully!');
+    }
+
+    // 4. Feedback & Reviews Page
     public function feedback()
     {
-        // Feedback ke saath customer ka naam bhi uthayega (Eager Loading)
         $feedbacks = Feedback::with('customer')->latest()->get();
         return view('backend.management.crm.feedback', compact('feedbacks'));
     }
 
-    // 4. Save New Customer
+    // 5. Save New Customer
     public function store(Request $request)
     {
         $request->validate([
@@ -47,7 +64,7 @@ class CustomerController extends Controller
             'phone' => $request->phone,
             'email' => $request->email,
             'address' => $request->address,
-            'loyalty_points' => 0, // Shuru mein zero points
+            'loyalty_points' => 0, 
         ]);
 
         return redirect()->back()->with('success', 'Customer added successfully!');

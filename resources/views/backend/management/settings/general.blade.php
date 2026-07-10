@@ -1,4 +1,5 @@
 @extends('backend.layouts.app')
+
 @section('content')
 <div class="page-header">
     <div class="page-block">
@@ -16,9 +17,10 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row g-4"> {{-- Added g-4 for better spacing --}}
+    {{-- Restaurant Profile Card --}}
     <div class="col-lg-8">
-        <div class="card">
+        <div class="card h-100 mb-0"> {{-- h-100 makes the card full height --}}
             <div class="card-header">
                 <h5>Restaurant Profile</h5>
             </div>
@@ -57,31 +59,35 @@
         </div>
     </div>
 
+    {{-- Branding Card --}}
     <div class="col-lg-4">
-        <div class="card">
+        <div class="card h-100 mb-0"> {{-- h-100 makes the card full height --}}
             <div class="card-header">
                 <h5>Branding</h5>
             </div>
-            <div class="card-body text-center">
-                <div class="mb-4">
-                    <label class="form-label d-block text-start fw-600">Current Logo</label>
-                    <div class="p-4 border rounded-3 bg-light d-inline-block">
-                        @if(isset($settings['restaurant_logo']))
-                            <img src="{{ asset($settings['restaurant_logo']) }}" alt="Logo" class="img-fluid" style="max-height: 80px;">
-                        @else
-                            <div class="text-muted"><i class="ti ti-photo fs-1"></i><br>No Logo Uploaded</div>
-                        @endif
+            <div class="card-body d-flex flex-column justify-content-between"> {{-- flexbox helps in alignment --}}
+                <div class="text-center">
+                    <div class="mb-4">
+                        <label class="form-label d-block text-start fw-600">Current Logo</label>
+                        <div class="p-4 border rounded-3 bg-light d-inline-block">
+                            @if(isset($settings['restaurant_logo']))
+                                <img src="{{ asset($settings['restaurant_logo']) }}" alt="Logo" class="img-fluid" style="max-height: 80px;">
+                            @else
+                                <div class="text-muted"><i class="ti ti-photo fs-1"></i><br>No Logo Uploaded</div>
+                            @endif
+                        </div>
                     </div>
+                    
+                    <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-4 text-start">
+                            <label class="form-label fw-600">Upload New Logo</label>
+                            <input type="file" name="restaurant_logo" class="form-control">
+                            <small class="text-muted">Recommended: 200x80px PNG</small>
+                        </div>
+                        <button type="submit" class="btn btn-light-primary w-100 mt-auto">Update Branding</button>
+                    </form>
                 </div>
-                <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-3 text-start">
-                        <label class="form-label fw-600">Upload New Logo</label>
-                        <input type="file" name="restaurant_logo" class="form-control">
-                        <small class="text-muted">Recommended: 200x80px PNG</small>
-                    </div>
-                    <button type="submit" class="btn btn-light-primary w-100">Update Branding</button>
-                </form>
             </div>
         </div>
     </div>

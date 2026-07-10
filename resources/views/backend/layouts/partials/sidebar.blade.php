@@ -1,8 +1,13 @@
 <nav class="pc-sidebar">
     <div class="navbar-wrapper">
         <div class="m-header">
-            <a href="{{ route('admin.dashboard') }}" class="b-brand text-primary">
-                <img src="{{ asset('backend/assets/images/logo-dark.svg') }}" class="img-fluid logo-lg" alt="logo">
+            <a href="{{ route('admin.dashboard') }}" class="b-brand text-primary d-flex align-items-center text-decoration-none">
+                <div class="logo-container">
+                    <img src="{{ asset('backend/assets/images/fastfood-logo.png') }}" class="img-fluid logo-lg" alt="logo" style="max-height: 38px; width: auto;">
+                </div>
+                <span class="ms-2 fw-bold text-dark text-uppercase" style="font-size: 16px; letter-spacing: 1px; font-family: 'Public Sans', sans-serif;">
+                    Tasty Bites
+                </span>
             </a>
         </div>
         <div class="navbar-content">
@@ -34,7 +39,7 @@
                         <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                     </a>
                     <ul class="pc-submenu">
-                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.orders.live') ? route('admin.orders.live') : '#' }}"><i class="ti ti-bell-ringing me-2"></i>Live / New Orders <span class="badge bg-danger rounded-circle ms-1">3</span></a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.orders.live') ? route('admin.orders.live') : '#' }}"><i class="ti ti-bell-ringing me-2"></i>Live / New Orders</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.kds.index') ? route('admin.kds.index') : '#' }}"><i class="ti ti-device-tv me-2"></i>Kitchen Display (KDS)</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.orders.dispatch') ? route('admin.orders.dispatch') : '#' }}"><i class="ti ti-truck-delivery me-2"></i>Ready to Dispatch</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.orders.history') ? route('admin.orders.history') : '#' }}"><i class="ti ti-history me-2"></i>Order History</a></li>
@@ -48,7 +53,8 @@
                         <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                     </a>
                     <ul class="pc-submenu">
-                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.categories.index') ? route('admin.categories.index') : '#' }}"><i class="ti ti-category me-2"></i>Categories</a></li>
+                        {{-- Icon Changed to 'ti-list' for Categories --}}
+                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.categories.index') ? route('admin.categories.index') : '#' }}"><i class="ti ti-list me-2"></i>Categories</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.menu-items.index') ? route('admin.menu-items.index') : '#' }}"><i class="ti ti-soup me-2"></i>All Food Items</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.addons.index') ? route('admin.addons.index') : '#' }}"><i class="ti ti-puzzle me-2"></i>Add-ons & Extras</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.deals.index') ? route('admin.deals.index') : '#' }}"><i class="ti ti-discount-2 me-2"></i>Deals & Combos</a></li>
@@ -76,7 +82,8 @@
                         <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                     </a>
                     <ul class="pc-submenu">
-                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.tables.floor-plans') ? route('admin.tables.floor-plans') : '#' }}"><i class="ti ti-layout-board me-2"></i>Floor Plans</a></li>
+                        {{-- Icon Changed to 'ti-layout-grid' for Floor Plans --}}
+                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.tables.floor-plans') ? route('admin.tables.floor-plans') : '#' }}"><i class="ti ti-layout-grid me-2"></i>Floor Plans</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.tables.index') ? route('admin.tables.index') : '#' }}"><i class="ti ti-table me-2"></i>Table Management</a></li>
                     </ul>
                 </li>
@@ -106,9 +113,10 @@
                         <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                     </a>
                     <ul class="pc-submenu">
-                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.crm.customers') ? route('admin.crm.customers') : '#' }}"><i class="ti ti-users-group me-2"></i>Customer Database</a></li>
+                        {{-- Icons Updated for Maximum Compatibility --}}
+                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.crm.customers') ? route('admin.crm.customers') : '#' }}"><i class="ti ti-users me-2"></i>Customer Database</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.crm.loyalty') ? route('admin.crm.loyalty') : '#' }}"><i class="ti ti-star me-2"></i>Loyalty Points</a></li>
-                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.crm.feedback') ? route('admin.crm.feedback') : '#' }}"><i class="ti ti-message-star me-2"></i>Feedback & Reviews</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ Route::has('admin.crm.feedback') ? route('admin.crm.feedback') : '#' }}"><i class="ti ti-messages me-2"></i>Feedback & Reviews</a></li>
                     </ul>
                 </li>
 
@@ -156,13 +164,6 @@
                     </ul>
                 </li>
             </ul>
-
-            <div class="card text-center bg-light-primary border-0  m-3">
-                <div class="card-body p-3">
-                    <p class="mb-2 text-muted" style="font-size: 12px;">Restaurant OS v2.0</p>
-                    <span class="badge bg-primary">Industrial Pro</span>
-                </div>
-            </div>
         </div>
     </div>
 </nav>

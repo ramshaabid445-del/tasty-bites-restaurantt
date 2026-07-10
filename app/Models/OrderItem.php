@@ -19,4 +19,9 @@ class OrderItem extends Model
 
     public function order() { return $this->belongsTo(Order::class); }
     public function menuItem() { return $this->belongsTo(MenuItem::class); }
+    // app/Models/OrderItem.php mein ye add karein
+    public function getPriceAttribute()
+    {
+    return $this->unit_price;
+    }
 }

@@ -9,5 +9,12 @@ class Addon extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'price', 'is_active'];
+    protected $fillable = ['name', 'price', 'status', 'is_active'];
+
+    public function scopeActive($query)
+    {
+        return $query->where(function ($query) {
+            $query->where('status', 1)->orWhere('is_active', true);
+        });
+    }
 }

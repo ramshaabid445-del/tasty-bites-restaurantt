@@ -18,7 +18,7 @@
 
 <div class="row">
     <div class="col-sm-12">
-        <div class="card">
+        <div class="card shadow-sm border-0">
             <div class="card-header d-flex align-items-center justify-content-between">
                 <h5>Menu Items List</h5>
                 <div class="search-box">
@@ -34,10 +34,10 @@
                 @endif
 
                 <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead>
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
                             <tr>
-                                <th class="ps-4">#</th>
+                                <th class="ps-4" style="width: 60px;">#</th>
                                 <th>Dish</th>
                                 <th>Category</th>
                                 <th>Price</th>
@@ -51,9 +51,12 @@
                                 <td class="ps-4 text-muted">{{ $key + 1 }}</td>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <div class="avatar avatar-md overflow-hidden rounded-circle border me-3">
+                                        {{-- Image Container Fixed --}}
+                                        <div class="avatar border me-3" style="width: 45px; height: 45px; overflow: hidden; border-radius: 8px; flex-shrink: 0;">
                                             @if($item->image)
-                                                <img src="{{ asset('uploads/menu_items/'.$item->image) }}" alt="img" class="img-fluid">
+                                                <img src="{{ asset('uploads/menu_items/'.$item->image) }}" 
+                                                     alt="img" 
+                                                     style="width: 100%; height: 100%; object-fit: cover;">
                                             @else
                                                 <div class="bg-light-secondary text-secondary d-flex align-items-center justify-content-center h-100">
                                                     <i class="ti ti-tools-kitchen-2 fs-4"></i>
@@ -76,13 +79,13 @@
                                 </td>
                                 <td class="text-end pe-4">
                                     <div class="d-flex justify-content-end gap-2">
-                                        <a href="{{ route('admin.menu-items.edit', $item->id) }}" class="btn btn-sm btn-light-primary btn-icon" title="Edit">
+                                        <a href="{{ route('admin.menu-items.edit', $item->id) }}" class="btn btn-sm btn-light-primary btn-icon border-0" title="Edit">
                                             <i class="ti ti-edit fs-5"></i>
                                         </a>
                                         <form action="{{ route('admin.menu-items.destroy', $item->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-light-danger btn-icon" onclick="return confirm('Are you sure?')" title="Delete">
+                                            <button type="submit" class="btn btn-sm btn-light-danger btn-icon border-0" onclick="return confirm('Are you sure?')" title="Delete">
                                                 <i class="ti ti-trash fs-5"></i>
                                             </button>
                                         </form>
@@ -106,4 +109,9 @@
         </div>
     </div>
 </div>
+
+<style>
+    .fw-600 { font-weight: 600; }
+    .table td { padding: 10px 8px !important; }
+</style>
 @endsection

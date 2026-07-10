@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Storage;
 
 class SettingsController extends Controller
 {
+    /**
+     * 1. General Settings View
+     */
     public function generalInfo()
     {
         // Saari settings ko key-value pair mein utha lo
@@ -16,6 +19,28 @@ class SettingsController extends Controller
         return view('backend.management.settings.general', compact('settings'));
     }
 
+    /**
+     * 2. Payment Gateways View
+     */
+    public function paymentGateways()
+    {
+        $settings = Setting::pluck('value', 'key')->toArray();
+        return view('backend.management.settings.payment', compact('settings'));
+    }
+
+    /**
+     * 3. Printer Configuration View
+     */
+    public function printerSetup()
+    {
+        $settings = Setting::pluck('value', 'key')->toArray();
+        return view('backend.management.settings.printer', compact('settings'));
+    }
+
+    /**
+     * 4. Universal Update Function
+     * Yeh ek hi function saari settings (General, Payment, Printer) save karega
+     */
     public function update(Request $request)
     {
         // Sab data uthao siwaye token aur logo ke

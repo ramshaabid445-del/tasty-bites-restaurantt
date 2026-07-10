@@ -17,167 +17,231 @@
 
     @stack('styles')
     <style>
-        :root {
-            --primary-color: #7267ef;
-            --secondary-color: #6c757d;
-            --success-color: #2ca87f;
-            --info-color: #3ebfea;
-            --warning-color: #e58a00;
-            --danger-color: #dc2626;
-            --light-color: #f8f9fa;
-            --dark-color: #1a1c23;
-            --card-radius: 16px;
-            --card-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
-            --content-padding: 24px;
+    :root {
+        --primary-color: #7267ef;
+        --content-padding: 24px;
+    }
+
+    /* --- THE GREY SCREEN KILLER (Nuclear Version) --- */
+    /* Target strictly the overlay without affecting layout buttons */
+    .pc-container::before, 
+    .pc-container::after,
+    body.pc-sidebar-hide .pc-container::before,
+    .pc-sidebar-hide .pc-container::before,
+    [data-pc-sidebar-caption="true"] .pc-container::before {
+        display: none !important;
+        content: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        background: transparent !important;
+    }
+
+    /* Force background and remove any filters/blur */
+    body, .pc-container, .pc-header, .pc-content {
+        filter: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background-color: #f4f7fa !important;
+        opacity: 1 !important;
+    }
+
+    .card {
+        background: #fff !important;
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+        margin-bottom: var(--content-padding);
+    }
+
+    /* --- SIDEBAR & BUTTON FIXES --- */
+    .pc-sidebar { transition: all 0.3s ease; }
+
+    @media (max-width: 1024px) {
+        /* Sidebar always hidden by default on mobile */
+        .pc-sidebar {
+            left: -280px !important;
+            position: fixed !important;
+            z-index: 2000 !important;
+            visibility: visible !important;
+            display: block !important;
         }
-
-        body {
-            font-family: 'Public Sans', sans-serif;
-            background-color: #f4f7fa;
-            color: #4b5563;
+        /* When active, slide it in */
+        .pc-sidebar.mob-sidebar-active {
+            left: 0 !important;
         }
-
-        .pc-container {
-            padding-top: 0;
-            min-height: calc(100vh - 70px);
+        /* IMPORTANT: Force the Hamburger button to stay visible */
+        .pc-header .pc-h-item.pc-sidebar-collapse, 
+        .pc-header .pc-head-link#sidebar-hide {
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
+        .pc-container { margin-left: 0 !important; width: 100% !important; }
+    }
 
-        .pc-content {
-            padding: var(--content-padding);
-        }
+    /* Overlay for mobile when sidebar is open */
+    .pc-menu-overlay {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1500;
+        display: none;
+    }
+    .pc-menu-overlay.active { display: block; }
 
-        .page-header {
-            margin-bottom: 2rem;
-            background: transparent;
-            padding: 0;
-        }
+    /* ============================================= */
+    /* ===========  DARK PURPLE SIDEBAR  ============ */
+    /* ============================================= */
 
-        .page-header h2, .page-header h3, .page-header h4, .page-header h5 {
-            font-weight: 700;
-            color: var(--dark-color);
-            margin-bottom: 0.5rem;
-        }
+    .pc-sidebar {
+        background: linear-gradient(180deg, #241b3e 0%, #1a1330 100%) !important;
+        border-right: none;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+    }
 
-        .breadcrumb {
-            background: transparent;
-            padding: 0;
-            margin: 0;
-            font-size: 0.875rem;
-        }
+    /* Logo area */
+    .pc-sidebar .m-header {
+        background: transparent;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 20px 16px;
+    }
 
-        .card {
-            border: none;
-            border-radius: var(--card-radius);
-            box-shadow: var(--card-shadow);
-            margin-bottom: var(--content-padding);
-            transition: all 0.3s ease;
-            background: #fff;
-        }
+    .pc-sidebar .b-brand span,
+    .pc-sidebar .b-brand .text-dark {
+        color: #ffffff !important;
+    }
 
-        .card-header {
-            background-color: transparent;
-            border-bottom: 1px solid #f1f5f9;
-            padding: 1.25rem 1.5rem;
-        }
+    /* Caption labels (Core Operations, Management, etc.) */
+    .pc-sidebar .pc-item.pc-caption label {
+        color: rgba(255, 255, 255, 0.35) !important;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+    }
 
-        .card-header h5 {
-            margin-bottom: 0;
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: var(--dark-color);
-        }
+    .pc-sidebar .pc-item.pc-caption i {
+        color: rgba(255, 255, 255, 0.2) !important;
+    }
 
-        .card-body {
-            padding: 1.5rem;
-        }
+    /* Nav links */
+    .pc-sidebar .pc-link {
+        color: rgba(255, 255, 255, 0.65) !important;
+        border-radius: 10px;
+        margin: 2px 12px;
+        padding: 10px 14px;
+        transition: all 0.25s ease;
+        position: relative;
+    }
 
-        .btn {
-            border-radius: 10px;
-            padding: 0.6rem 1.25rem;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
+    .pc-sidebar .pc-micon i,
+    .pc-sidebar .pc-micon svg {
+        color: rgba(255, 255, 255, 0.5) !important;
+        transition: color 0.25s ease;
+    }
 
-        .btn-primary { background-color: var(--primary-color); border-color: var(--primary-color); }
-        .btn-primary:hover { background-color: #5e54d3; border-color: #5e54d3; transform: translateY(-1px); }
+    .pc-sidebar .pc-arrow i {
+        color: rgba(255, 255, 255, 0.35) !important;
+    }
 
-        .table {
-            margin-bottom: 0;
-        }
+    /* Hover state */
+    .pc-sidebar .pc-item:not(.pc-caption) > .pc-link:hover {
+        background: rgba(114, 103, 239, 0.15) !important;
+        color: #ffffff !important;
+    }
 
-        .table thead th {
-            background-color: #f8fafc;
-            border-bottom: 1px solid #e2e8f0;
-            color: #64748b;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.025em;
-            padding: 1rem 1.5rem;
-        }
+    .pc-sidebar .pc-item:not(.pc-caption) > .pc-link:hover .pc-micon i {
+        color: #a99bff !important;
+    }
 
-        .table tbody td {
-            padding: 1rem 1.5rem;
-            vertical-align: middle;
-            color: #4b5563;
-            border-bottom: 1px solid #f1f5f9;
-        }
+    /* Active / current page state */
+    .pc-sidebar .pc-item.active > .pc-link,
+    .pc-sidebar .pc-item.pc-trigger > .pc-link {
+        background: linear-gradient(90deg, rgba(114, 103, 239, 0.9) 0%, rgba(114, 103, 239, 0.55) 100%) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(114, 103, 239, 0.35);
+    }
 
-        .badge {
-            padding: 0.5em 0.8em;
-            font-weight: 600;
-            border-radius: 6px;
-        }
+    .pc-sidebar .pc-item.active > .pc-link .pc-micon i,
+    .pc-sidebar .pc-item.pc-trigger > .pc-link .pc-micon i {
+        color: #ffffff !important;
+    }
 
-        .form-control, .form-select {
-            border-radius: 10px;
-            padding: 0.6rem 1rem;
-            border: 1px solid #e2e8f0;
-            font-size: 0.95rem;
-        }
+    /* Small accent bar on active item */
+    .pc-sidebar .pc-item.active > .pc-link::before {
+        content: '';
+        position: absolute;
+        left: -12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 60%;
+        background: #ffffff;
+        border-radius: 0 4px 4px 0;
+        opacity: 0.9;
+    }
 
-        .form-control:focus, .form-select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(114, 103, 239, 0.1);
-        }
+    /* Submenu */
+    .pc-sidebar .pc-submenu {
+        background: rgba(0, 0, 0, 0.18) !important;
+        border-radius: 10px;
+        margin: 2px 12px 6px 12px;
+        padding: 6px 0;
+    }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #999; }
+    .pc-sidebar .pc-submenu .pc-link {
+        margin: 1px 8px;
+        padding: 8px 12px 8px 34px;
+        font-size: 13.5px;
+        color: rgba(255, 255, 255, 0.55) !important;
+    }
 
-        @media (max-width: 1024px) {
-            .pc-container { margin-left: 0; }
-            .pc-content { padding: 1rem; }
-        }
+    .pc-sidebar .pc-submenu .pc-link:hover {
+        background: rgba(114, 103, 239, 0.2) !important;
+        color: #ffffff !important;
+    }
+
+    .pc-sidebar .pc-submenu .pc-link i {
+        color: rgba(255, 255, 255, 0.4) !important;
+    }
+
+    .pc-sidebar .pc-submenu .pc-link:hover i {
+        color: #a99bff !important;
+    }
+
+    /* Custom scrollbar for sidebar */
+    .pc-sidebar .navbar-content::-webkit-scrollbar {
+        width: 5px;
+    }
+    .pc-sidebar .navbar-content::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .pc-sidebar .navbar-content::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+    }
+    .pc-sidebar .navbar-content::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
     </style>
 </head>
 
 <body data-pc-preset="preset-1" data-pc-direction="ltr" data-pc-theme="light">
-    <div class="loader-bg"><div class="loader-track"><div class="loader-fill"></div></div></div>
-
+    <div class="pc-menu-overlay"></div>
+    
     @include('backend.layouts.partials.sidebar')
     @include('backend.layouts.partials.header')
 
     <div class="pc-container">
         <div class="pc-content">
-            <div id="pc-layout-config" style="display:none;"></div>
-            <div id="pc-sidebar-caption" style="display:none;"></div>
-            <div id="pc-layout-font" style="display:none;"></div>
-
             @yield('content')
         </div>
     </div>
 
-    <footer class="pc-footer">
-        <div class="footer-wrapper container-fluid">
-            <div class="row text-center">
-                <div class="col-sm my-1">
-                    <p class="m-0">© {{ date('Y') }} {{ config('app.name') }}</p>
-                </div>
-            </div>
-        </div>
+    <footer class="pc-footer text-center py-3">
+        <p class="m-0">© {{ date('Y') }} {{ config('app.name') }}</p>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -188,24 +252,47 @@
     <script src="{{ asset('backend/assets/js/pcoded.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-    <script>
-        // 1. Kill all JS errors
-        window.onerror = function() { return true; };
-
-        $(document).ready(function() {
-            // 2. Force Redirect Bypass (In case theme blocks it)
-            $(document).on('click', '.pc-link, .pc-link-fixed', function (e) {
-                var targetUrl = $(this).attr('href');
-                if (targetUrl && targetUrl !== '#' && targetUrl !== '#!') {
-                    // Agar link standard redirect nahi kar raha, toh manually bhejo
-                    window.location.href = targetUrl;
-                }
+<script>
+    $(document).ready(function() {
+        // Function to kill the grey shade and fix layout
+        function killGreyShade() {
+            // Remove the dark filter/backdrop
+            $('.pc-container, body, .pc-header').css({
+                'filter': 'none',
+                'backdrop-filter': 'none',
+                'background-color': '#f4f7fa'
             });
+            // Ensure the toggle button exists and is visible
+            if ($('#sidebar-hide').length > 0) {
+                $('#sidebar-hide').show().css('visibility', 'visible');
+            }
+        }
 
-            // 3. Icons refresh
-            if (typeof feather !== 'undefined') { feather.replace(); }
+        // Run every 100ms because the template JS keeps trying to re-add the shade
+        setInterval(killGreyShade, 100);
+
+        // Unified Toggle Logic
+        $(document).on('click', '#sidebar-hide', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if ($(window).width() < 1025) {
+                $('.pc-sidebar').toggleClass('mob-sidebar-active');
+                $('.pc-menu-overlay').toggleClass('active');
+            } else {
+                $('body').toggleClass('pc-sidebar-hide');
+            }
         });
-    </script>
+
+        // Close on overlay click
+        $('.pc-menu-overlay').on('click', function() {
+            $('.pc-sidebar').removeClass('mob-sidebar-active');
+            $(this).removeClass('active');
+        });
+
+        if (typeof feather !== 'undefined') { feather.replace(); }
+    });
+</script>
 
     @stack('scripts')
 </body>

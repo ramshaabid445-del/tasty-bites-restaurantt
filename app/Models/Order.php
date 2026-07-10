@@ -4,28 +4,33 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Schema;
 
 class Order extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'order_number', 'user_id', 'dining_table_id', 'customer_name', 'customer_phone',
-        'order_type', 'status', 'sub_total', 'tax_amount', 'discount_amount',  'total_amount',
-        'payment_method', 'payment_status', 'notes'
+        'order_number', 'user_id', 'dining_table_id', 'table_id', 'customer_name', 'customer_phone',
+        'customer_email', 'customer_address',
+        'order_type', 'status', 'sub_total', 'tax_amount', 'discount_amount', 'total_amount',
+        'payment_method', 'payment_status', 'notes', 'assigned_staff_id', 'staff_id', 'employee_id',
+        'estimated_ready_at'
     ];
 
-    /**
-     * Relationship Fix: 
-     * Aapke Controller mein 'table' call ho raha hai, isliye humne function ka naam 
-     * 'table' rakh diya hai jo 'dining_table_id' ko use karega.
-     */
+    protected $casts = [
+        'estimated_ready_at' => 'datetime',
+        'preparing_at' => 'datetime',
+        'ready_at' => 'datetime',
+    ];
+
     public function table() 
     { 
-        return $this->belongsTo(DiningTable::class, 'dining_table_id'); 
+        // Fallback checks for column variations inside the model instance context
+        $foreignKey = Schema::hasColumn('orders', 'dining_table_id') ? 'dining_table_id' : 'table_id';
+        return $this->belongsTo(DiningTable::class, $foreignKey); 
     }
 
-    // Purana naam bhi rakha hai agar kahin aur use ho raha ho
     public function diningTable() 
     { 
         return $this->belongsTo(DiningTable::class, 'dining_table_id'); 
@@ -38,13 +43,9 @@ class Order extends Model
 
     public function items() 
     { 
-        // Foreign key 'order_id' lazmi check karein OrderItem table mein
         return $this->hasMany(OrderItem::class, 'order_id'); 
     }
 
-    /**
-     * Status Accessor
-     */
     public function getOrderStatusAttribute()
     {
         return $this->status;

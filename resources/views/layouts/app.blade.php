@@ -51,6 +51,13 @@
         </div>
 
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
         <script>

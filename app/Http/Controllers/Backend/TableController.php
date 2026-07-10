@@ -14,11 +14,17 @@ class TableController extends Controller
         return view('backend.tables.index', compact('tables'));
     }
 
-    // Floor Plans wala view jo aapne sidebar mein mangha tha
+    /**
+     * Nayi Table banane ka view dikhana (Missing Method)
+     */
+    public function create()
+    {
+        return view('backend.tables.create');
+    }
+
     public function floorPlans()
     {
         $tables = DiningTable::all();
-        // Alag alag floors ke liye data group kar sakte hain agar column ho
         return view('backend.tables.floor_plans', compact('tables'));
     }
 
@@ -32,10 +38,20 @@ class TableController extends Controller
         DiningTable::create([
             'name' => $request->name,
             'capacity' => $request->capacity,
-            'status' => 'available', // Default status
+            'status' => 'available', 
         ]);
 
-        return redirect()->back()->with('success', 'Table added successfully!');
+        // Agar aap alag 'create' page se aa rahe hain toh index par bhejien
+        return redirect()->route('admin.tables.index')->with('success', 'Table added successfully!');
+    }
+
+    /**
+     * Table update karne ka view dikhana (Missing Method)
+     */
+    public function edit($id)
+    {
+        $table = DiningTable::findOrFail($id);
+        return view('backend.tables.edit', compact('table'));
     }
 
     public function update(Request $request, $id)
@@ -49,7 +65,7 @@ class TableController extends Controller
         $diningTable = DiningTable::findOrFail($id);
         $diningTable->update($request->all());
 
-        return redirect()->back()->with('success', 'Table updated successfully!');
+        return redirect()->route('admin.tables.index')->with('success', 'Table updated successfully!');
     }
 
     public function destroy($id)

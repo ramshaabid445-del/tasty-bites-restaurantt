@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar', // <-- Profile picture ke liye ye add kar diya
     ];
 
     /**

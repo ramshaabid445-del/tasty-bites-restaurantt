@@ -5,37 +5,62 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Exception;
 
 class KDSController extends Controller
 {
-    // 1. Kitchen Screen: Sirf wo orders dikhana jo abhi tak serve nahi hue
     public function index()
     {
-        $orders = Order::with('items.menuItem')
-            ->whereIn('status', ['pending', 'preparing', 'ready'])
-            ->orderBy('created_at', 'asc') // Purane orders pehle aayenge (First-In, First-Out)
+        // 'ready' orders ko list se nikal diya hai taake sirf kaam wala data show ho
+        $orders = Order::with(['items', 'table'])
+            ->whereIn('status', ['pending', 'preparing'])
+            ->orderBy('created_at', 'asc')
             ->get();
 
         return view('backend.kds.index', compact('orders'));
     }
 
-    // 2. Status Update Logic: Chef status change karega
     public function updateStatus(Request $request, $id)
     {
-        $request->validate([
-            'status' => 'required|in:preparing,ready,served,cancelled'
-        ]);
+        try {
+            // 1. Order check karein
+            $order = Order::find($id);
+            if (!$order) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Order #'.$id.' not found!'
+                ], 404);
+            }
 
-        $order = Order::findOrFail($id);
-        $order->status = $request->status;
-        $order->save();
+            // 2. Status validate karein
+            $request->validate([
+                'status' => 'required|string'
+            ]);
 
-        // Agar order serve ho gaya hai aur dine-in tha, toh table ko free karne ki logic bhi daal sakte hain
-        // Lekin professional POS mein table "Completed" ya "Paid" par free hoti hai.
+            // 3. Status update karein
+            $order->status = $request->status;
 
-        return response()->json([
-            'success' => true, 
-            'message' => 'Order status updated to ' . $request->status
-        ]);
+            // Timestamp Logic (Sirf tab chalegi agar columns database mein hain)
+            // Agar error aaye to in lines ko comment kar dein
+            if ($request->status == 'preparing') {
+                $order->preparing_at = now();
+            } elseif ($request->status == 'ready') {
+                $order->ready_at = now();
+            }
+
+            $order->save();
+
+            return response()->json([
+                'success' => true, 
+                'message' => 'Order status updated successfully!'
+            ]);
+
+        } catch (Exception $e) {
+            // Ye line aapko exact batayegi ke database mein kya masla hai
+            return response()->json([
+                'success' => false,
+                'message' => 'Controller Error: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

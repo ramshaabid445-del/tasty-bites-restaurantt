@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="60" viewBox="0 0 240 60" role="img" aria-label="Tasty Bites logo">
+  <rect width="240" height="60" rx="8" fill="transparent" />
+  <g transform="translate(8,8)">
+    <circle cx="22" cy="22" r="18" fill="#6f42c1" />
+    <g transform="translate(14,12)" fill="#fff">
+      <path d="M4 2c1 0 2 1 2 2s-1 2-2 2-2-1-2-2 1-2 2-2z"/>
+      <rect x="7" y="0" width="2" height="8" rx="1" />
+    </g>
+    <text x="52" y="28" font-family="Helvetica, Arial, sans-serif" font-size="18" fill="#6f42c1">Tasty Bites</text>
+  </g>
+</svg>

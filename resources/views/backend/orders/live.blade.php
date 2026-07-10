@@ -1,79 +1,77 @@
 @extends('backend.layouts.app')
 
+{{-- Clean tab title matching order configurations layout --}}
+@section('title', 'Live KDS Orders Terminal')
+
 @section('content')
-<div class="page-header">
+<div class="page-header mb-3 no-print">
     <div class="page-block">
         <div class="row align-items-center">
             <div class="col-md-12">
-                <div class="page-header-title">
-                    <h5 class="m-b-10">Live Orders</h5>
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <div>
+                        <div class="page-header-title">
+                            <h2 class="mb-1 fw-bold text-dark text-uppercase" style="letter-spacing: 0.5px; font-size: 1.6rem;">
+                                <span class="live-indicator-dot me-2"></span>Live Orders Terminal
+                            </h2>
+                        </div>
+                        <ul class="breadcrumb small text-muted bg-transparent p-0 m-0">
+                            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none"><i class="ti ti-home me-1"></i>Home</a></li>
+                            <li class="breadcrumb-item text-secondary">Order Management</li>
+                            <li class="breadcrumb-item active text-danger fw-semibold">Real-time KDS</li>
+                        </ul>
+                    </div>
+                    
+                    {{-- Quick navigation help controls for kitchen staff --}}
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-light-danger text-danger border px-3 py-2 fw-bold" style="font-size: 11px; border-radius: 8px;">
+                            <i class="ti ti-activity heartbeat me-1"></i> REALTIME POLLING ACTIVE
+                        </span>
+                    </div>
                 </div>
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                    <li class="breadcrumb-item">Order Management</li>
-                    <li class="breadcrumb-item" aria-current="page">Live Orders</li>
-                </ul>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-6 col-xl-4">
-        <div class="card border-top border-3 border-warning">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">#ORD-00102</h5>
-                <span class="badge bg-light-warning text-warning"><i class="ti ti-clock"></i> 10 Mins Ago</span>
-            </div>
-            <div class="card-body">
-                <div class="d-flex justify-content-between mb-3">
-                    <span class="text-muted">Type: <strong>Dine-in (Table 4)</strong></span>
-                    <span class="badge bg-primary">Preparing</span>
-                </div>
-                <ul class="list-group list-group-flush mb-3">
-                    <li class="list-group-item px-0 py-2 d-flex justify-content-between">
-                        <span>2x Zinger Burger</span> <span class="text-muted">$12.00</span>
-                    </li>
-                    <li class="list-group-item px-0 py-2 d-flex justify-content-between">
-                        <span>1x Large Fries</span> <span class="text-muted">$3.50</span>
-                    </li>
-                    <li class="list-group-item px-0 py-2 d-flex justify-content-between">
-                        <span>2x Coke (Regular)</span> <span class="text-muted">$4.00</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="card-footer d-flex justify-content-between align-items-center">
-                <h6 class="mb-0">Total: $19.50</h6>
-                <button class="btn btn-sm btn-success">Mark as Ready</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-6 col-xl-4">
-        <div class="card border-top border-3 border-danger">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">#ORD-00103</h5>
-                <span class="badge bg-light-danger text-danger"><i class="ti ti-clock"></i> 25 Mins Ago</span>
-            </div>
-            <div class="card-body">
-                <div class="d-flex justify-content-between mb-3">
-                    <span class="text-muted">Type: <strong>Takeaway</strong></span>
-                    <span class="badge bg-danger">Delayed</span>
-                </div>
-                <ul class="list-group list-group-flush mb-3">
-                    <li class="list-group-item px-0 py-2 d-flex justify-content-between">
-                        <span>1x BBQ Chicken Pizza (L)</span> <span class="text-muted">$18.00</span>
-                    </li>
-                    <li class="list-group-item px-0 py-2 d-flex justify-content-between text-danger">
-                        <small>Addon: Extra Cheese</small>
-                    </li>
-                </ul>
-            </div>
-            <div class="card-footer d-flex justify-content-between align-items-center">
-                <h6 class="mb-0">Total: $18.00</h6>
-                <button class="btn btn-sm btn-success">Mark as Ready</button>
-            </div>
-        </div>
-    </div>
+{{-- 🔥 OPTIMIZATION: Stripped padding out to allow absolute fluid fullscreen grid execution for kitchen screens --}}
+<div class="container-fluid p-0 live-terminal-wrapper">
+    @livewire('live-orders')
 </div>
+
+<style>
+    /* Live status pulsing icon indicator rule setup */
+    .live-indicator-dot {
+        width: 12px;
+        height: 12px;
+        background-color: #ef4444;
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+        animation: pulse-red 2s infinite;
+        vertical-align: middle;
+    }
+
+    .heartbeat {
+        animation: heartbeat 1.5s infinite alternate;
+    }
+
+    @keyframes pulse-red {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+
+    @keyframes heartbeat {
+        0% { transform: scale(1); }
+        100% { transform: scale(1.1); }
+    }
+
+    /* KDS Terminal alignment constraints overrides */
+    .live-terminal-wrapper {
+        min-height: calc(100vh - 180px);
+    }
+    
+    .bg-light-danger { background-color: #fee2e2 !important; border-color: #fca5a5 !important; }
+</style>
 @endsection
