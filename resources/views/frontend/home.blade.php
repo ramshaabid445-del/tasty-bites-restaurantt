@@ -27,7 +27,7 @@
           <li class="promo-item">
             <a class="promo-card" href="{{ route('frontend.shop.index', ['category' => $category->slug]) }}" data-aos="fade-up">
               <h3 class="h3 card-title">{{ $category->name }}</h3>
-              <p class="card-text">{{ str($category->description ?: 'Explore fresh picks from this kitchen section.')->limit(110) }}</p>
+
               <img src="{{ $category->image ? asset('uploads/categories/' . $category->image) : asset('frontend/assets/images/promo-1.png') }}" width="300" height="300" loading="lazy" alt="{{ $category->name }}" class="w-100 card-banner">
             </a>
           </li>

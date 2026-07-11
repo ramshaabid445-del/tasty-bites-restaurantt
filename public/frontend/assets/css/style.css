@@ -263,6 +263,7 @@ body.active { overflow: hidden; }
 .has-scrollbar {
   display: flex;
   gap: 10px;
+  align-items: stretch;
   overflow-x: auto;
   scroll-snap-type: inline mandatory;
   padding-block-end: 40px;
@@ -573,6 +574,12 @@ body.active { overflow: hidden; }
 
 .promo-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 100%;
   background-color: var(--white);
   text-align: center;
   padding: 40px 30px;
@@ -614,14 +621,34 @@ body.active { overflow: hidden; }
 }
 
 .promo-card .card-banner {
-  max-width: max-content;
-  margin-inline: auto;
+  display: block;
+  width: 100%;
+  max-width: 300px;
   aspect-ratio: 1 / 1;
+  object-fit: cover;
 }
 
 .promo-item {
+  display: flex;
+  align-items: stretch;
   min-width: 100%;
+  height: 100%;
   scroll-snap-align: start;
+}
+
+.promo-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  background-color: var(--white);
+  text-align: center;
+  padding: 40px 30px;
+  box-shadow: var(--shadow-2);
+  z-index: 1;
 }
 
 
