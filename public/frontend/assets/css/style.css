@@ -579,12 +579,17 @@ body.active { overflow: hidden; }
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  min-height: 100%;
+  height: 460px; /* Teeno cards ko ek barabar fix height de di */
   background-color: var(--white);
   text-align: center;
   padding: 40px 30px;
   box-shadow: var(--shadow-2);
   z-index: 1;
+  overflow: hidden; /* Yeh neeche ka fuzool white space/text kaat dega */
+}
+.promo-card img {
+  max-height: 180px;
+  object-fit: contain;
 }
 
 .promo-card::after {
