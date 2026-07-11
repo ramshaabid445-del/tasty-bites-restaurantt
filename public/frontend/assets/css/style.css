@@ -577,19 +577,24 @@ body.active { overflow: hidden; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start; /* Isko top se align kar diya */
   width: 100%;
-  height: 460px; /* Teeno cards ko ek barabar fix height de di */
+  height: 400px !important;    /* Force fix strict height */
   background-color: var(--white);
   text-align: center;
-  padding: 40px 30px;
+  padding: 30px 20px 20px 20px; /* Padding thodi kam ki taaki space bache */
   box-shadow: var(--shadow-2);
   z-index: 1;
-  overflow: hidden; /* Yeh neeche ka fuzool white space/text kaat dega */
+  overflow: hidden;             /* Takay extra hissa bilkul cut jaye */
 }
-.promo-card img {
-  max-height: 180px;
-  object-fit: contain;
+
+/* Teeno card ki images ko bilkul ek size mein bandhne ke liye */
+.promo-card img, 
+.promo-card .card-icon img {
+  height: 140px !important;
+  width: auto !important;
+  object-fit: contain !important;
+  margin-top: 15px;
 }
 
 .promo-card::after {
