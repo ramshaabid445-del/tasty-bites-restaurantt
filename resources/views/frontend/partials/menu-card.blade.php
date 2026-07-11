@@ -10,7 +10,6 @@
     <div class="rating-wrapper"><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon></div>
   </div>
   <h3 class="h3 card-title"><a href="{{ route('frontend.menu.show', $item) }}">{{ $item->name }}</a></h3>
-  <p class="card-text">{{ $item->short_description }}</p>
   <div class="price-wrapper">
     <p class="price-text">Price:</p>
     <data class="price" value="{{ $item->current_price }}">Rs. {{ number_format($item->current_price, 2) }}</data>
